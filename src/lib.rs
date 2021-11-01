@@ -59,7 +59,14 @@ pub enum LogLevel {
     Error,
 }
 
-pub fn parse(logs: Vec<RawCloudWatchLog>) -> Vec<Log> {
+pub fn parse_log(log: RawCloudWatchLog) -> Result<Log> {
+    match log.record {
+        Value::String(_) => try_parse_cloudwatch_log(&log),
+        _ => Err(Error::msg(format!("Expected String {}", log.record))),
+    }
+}
+
+pub fn parse_logs(logs: Vec<RawCloudWatchLog>) -> Vec<Log> {
     logs.into_iter()
         .filter(|log| match log.r#type.as_str() {
             "function" => true,
@@ -68,10 +75,7 @@ pub fn parse(logs: Vec<RawCloudWatchLog>) -> Vec<Log> {
                 false
             }
         })
-        .map(|log| match log.record {
-            Value::String(_) => try_parse_cloudwatch_log(&log),
-            _ => Err(Error::msg(format!("Expected String {}", log.record))),
-        })
+        .map(parse_log) 
         .flatten()
         .collect()
 }
