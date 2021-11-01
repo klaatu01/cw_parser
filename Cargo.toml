@@ -2,9 +2,12 @@
 name = "cw_parser"
 version = "0.1.0"
 edition = "2018"
-authors = ["Charles Ede <charlieede01@gmail.com>"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Klaatu01"]
+repository = "https://github.com/klaatu01/cw_parser"
+description = "Parse cloudwatch logs in json format into something more useful"
+readme = "README.md"
+license = "MIT"
+keywords = ["cloudwatch", "logs", "parse"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
