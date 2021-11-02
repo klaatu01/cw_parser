@@ -58,6 +58,15 @@ pub enum Log {
     Formatted(serde_json::Value),
 }
 
+impl Log {
+    pub fn to_pretty_string(&self) -> String {
+        match self {
+            Log::Unformatted(data) => serde_json::to_string_pretty(data).unwrap(),
+            Log::Formatted(data) => serde_json::to_string_pretty(data).unwrap(),
+        }
+    }
+}
+
 
 impl ToString for Log {
     fn to_string(&self) -> String {
