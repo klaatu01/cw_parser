@@ -1,6 +1,6 @@
 [package]
 name = "cw_parser"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2018"
 authors = ["Klaatu01"]
 repository = "https://github.com/klaatu01/cw_parser"
@@ -15,3 +15,5 @@ serde_json = "1.0"
 anyhow = "1.0"
 regex = "1.4.2"
 recap = "0.1.1"
+rusoto_logs = "0.47.0"
+chrono = "0.4.0"

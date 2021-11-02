@@ -1,7 +1,9 @@
+use rusoto_logs::OutputLogEvent;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
 use anyhow::{Error, Result};
+use chrono::NaiveDateTime;
 mod dotnet;
 mod node;
 mod python;
@@ -11,6 +13,22 @@ pub struct RawCloudWatchLog {
     pub time: String,
     pub r#type: String,
     pub record: serde_json::Value,
+}
+
+impl TryFrom<OutputLogEvent> for RawCloudWatchLog {
+    type Error = anyhow::Error;
+    fn try_from(log: OutputLogEvent) -> Result<Self> {
+    match log { 
+        OutputLogEvent { message: Some(record), timestamp: Some(time), ingestion_time: _ } => 
+                Ok (RawCloudWatchLog {
+                    record: serde_json::Value::String(record),
+                    r#type: "function".to_string(),
+                    time: NaiveDateTime::from_timestamp(0, time.try_into().unwrap()).format("%Y-%m-%dT%H:%M:%SZ").to_string()
+                }),
+        _ => Err(Error::msg(format!("Unable to parse {:?} as RawCloudWatchLog", log))),
+        
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Clone)]
