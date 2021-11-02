@@ -1,6 +1,6 @@
 [package]
 name = "cw_parser"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 authors = ["Klaatu01"]
 repository = "https://github.com/klaatu01/cw_parser"
